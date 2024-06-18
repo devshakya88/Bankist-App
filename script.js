@@ -141,7 +141,7 @@ const navHeight = nav.getBoundingClientRect().height;
 
 const stickyNav = function (entries) {
   const [entry] = entries;
-  console.log(entry);
+  // console.log(entry);
   if (!entry.isIntersecting) {
     nav.classList.add('sticky');
   } else {
@@ -165,6 +165,8 @@ const revealSection = function (entries, observer) {
     return;
   }
   entry.target.classList.remove('section--hidden');
+
+  observer.unobserve(entry.target);
 };
 
 const sectionObserver = new IntersectionObserver(revealSection, {
@@ -176,3 +178,19 @@ allSections.forEach(function (section) {
 
   section.classList.add('section--hidden');
 });
+
+//Lazy Loading Images
+
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+};
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+});
+
+imgTargets.forEach(img => imgObserver.observe(img));
